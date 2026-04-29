@@ -13,7 +13,14 @@ class UsersListScreen extends StatefulWidget {
 
 class _UsersListScreenState extends State<UsersListScreen> {
   final SmartFloService _smartFloService = SmartFloService();
-  
+
+  static const _surface = Color(0xFFF6F7F9);
+  static const _panel = Colors.white;
+  static const _border = Color(0xFFE6E9EF);
+  static const _text = Color(0xFF1E2430);
+  static const _muted = Color(0xFF6B7280);
+  static const _brand = Color(0xFF0EA37A);
+
   List<User> users = [];
   List<User> filteredUsers = [];
   String selectedFilter = 'all';
@@ -81,24 +88,25 @@ class _UsersListScreenState extends State<UsersListScreen> {
       case 'completed':
         return Colors.green;
       default:
-        return Colors.white54;
+        return const Color(0xFF9CA3AF);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0A1128),
+      backgroundColor: _surface,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0A1128),
+        backgroundColor: _panel,
+        surfaceTintColor: Colors.transparent,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: _text),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Collection Users',
           style: TextStyle(
-            color: Colors.white,
+            color: _text,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -106,14 +114,14 @@ class _UsersListScreenState extends State<UsersListScreen> {
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh, color: Colors.white),
+            icon: const Icon(Icons.refresh, color: _text),
             onPressed: () => _fetchUsers(),
           ),
         ],
       ),
       body: isLoading
           ? const Center(
-              child: CircularProgressIndicator(color: Colors.green),
+              child: CircularProgressIndicator(color: _brand),
             )
           : errorMessage != null
               ? _buildErrorWidget()
@@ -142,14 +150,14 @@ class _UsersListScreenState extends State<UsersListScreen> {
                           Text(
                             'Total: ${filteredUsers.length} users',
                             style: const TextStyle(
-                              color: Colors.white54,
+                              color: _muted,
                               fontSize: 14,
                             ),
                           ),
                           Text(
                             'All: ${users.length}',
                             style: const TextStyle(
-                              color: Colors.white54,
+                              color: _muted,
                               fontSize: 12,
                             ),
                           ),
@@ -166,7 +174,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                           child: Text(
                             'No users found',
                             style: TextStyle(
-                              color: Colors.white54,
+                              color: _muted,
                               fontSize: 16,
                             ),
                           ),
@@ -197,7 +205,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
           Text(
             'Error Loading Users',
             style: const TextStyle(
-              color: Colors.white,
+              color: _text,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -209,7 +217,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
               errorMessage ?? 'An unknown error occurred',
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Colors.white54,
+                color: _muted,
                 fontSize: 14,
               ),
             ),
@@ -220,7 +228,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
             icon: const Icon(Icons.refresh),
             label: const Text('Retry'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
+              backgroundColor: _brand,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
             ),
@@ -235,14 +243,14 @@ class _UsersListScreenState extends State<UsersListScreen> {
     return ElevatedButton(
       onPressed: () => _filterUsers(value),
       style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected ? Colors.green : const Color(0xFF1E2A47),
-        foregroundColor: isSelected ? Colors.white : Colors.white70,
+        backgroundColor: isSelected ? _brand : _panel,
+        foregroundColor: isSelected ? Colors.white : _text,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
           side: BorderSide(
-            color: isSelected ? Colors.green : Colors.white10,
-            width: 2,
+            color: isSelected ? _brand : _border,
+            width: 1.5,
           ),
         ),
       ),
@@ -267,9 +275,9 @@ class _UsersListScreenState extends State<UsersListScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFF1A2238),
+        color: _panel,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white10),
+        border: Border.all(color: _border),
       ),
       child: Material(
         color: Colors.transparent,
@@ -292,7 +300,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                           Text(
                             user.name,
                             style: const TextStyle(
-                              color: Colors.white,
+                              color: _text,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
@@ -301,7 +309,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                           Text(
                             'ID: ${user.id}',
                             style: const TextStyle(
-                              color: Colors.white54,
+                              color: _muted,
                               fontSize: 12,
                             ),
                           ),
@@ -311,7 +319,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: _getStatusColor(user.status).withOpacity(0.2),
+                        color: _getStatusColor(user.status).withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: _getStatusColor(user.status),
@@ -352,7 +360,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                     icon: const Icon(Icons.call),
                     label: const Text('Initiate Call'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: _brand,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
@@ -376,7 +384,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
         Text(
           label,
           style: const TextStyle(
-            color: Colors.white54,
+            color: _muted,
             fontSize: 12,
           ),
         ),
@@ -384,7 +392,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
         Text(
           value,
           style: const TextStyle(
-            color: Colors.white,
+            color: _text,
             fontSize: 14,
             fontWeight: FontWeight.bold,
           ),

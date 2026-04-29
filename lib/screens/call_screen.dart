@@ -10,7 +10,7 @@ import 'dart:js' as js;
 class CallScreen extends StatefulWidget {
   final ChitDetails chitDetails;
 
-  const CallScreen({Key? key, required this.chitDetails}) : super(key: key);
+  const CallScreen({super.key, required this.chitDetails});
 
   @override
   State<CallScreen> createState() => _CallScreenState();
